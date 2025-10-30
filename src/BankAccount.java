@@ -1,11 +1,11 @@
 import java.util.Objects;
 
 /**
- * Models a simple bank account using value objects for domain concepts.
+ * A simple bank account.
  * This class ensures that the balance is never negative and that
  * transaction amounts are valid.
  */
-public final class BankAccount {
+public class BankAccount {
 
     private final AccountHolder accountHolder;
     private final AccountID accountId;
@@ -23,18 +23,27 @@ public final class BankAccount {
         this.balance = Money.ofCents(0);
     }
 
+
+    /**
+     * Validates if the given amount is positive or not.
+     * 
+     * @param amount The given amount.
+     * @throws IllegalArgumentException if the amount is not positive.
+     */
+    private void validatePositiveAmount(Money amount) {
+        if (!amount.isPositive()) {
+            throw new IllegalArgumentException("Amount must be positive.");
+        }
+    }
+
     /**
      * Deposits a specified amount into the account.
      * The amount must be a positive value.
      *
      * @param amount The amount to deposit.
-     * @throws IllegalArgumentException if the amount is not positive.
      */
     public void deposit(Money amount) {
-        // Validation for positive deposit amount can be handled here or inside Money
-        if (amount.getAmountInCents() <= 0) {
-            throw new IllegalArgumentException("Deposit amount must be positive.");
-        }
+        validatePositiveAmount(amount);
         this.balance = this.balance.add(amount);
     }
 
@@ -43,15 +52,28 @@ public final class BankAccount {
      * The amount must be positive and not exceed the current balance.
      *
      * @param amount The amount to withdraw.
-     * @throws IllegalArgumentException if the amount is not positive.
-     * @throws IllegalStateException    if the withdrawal amount exceeds the current balance.
      */
     public void withdraw(Money amount) {
-        if (amount.getAmountInCents() <= 0) {
-            throw new IllegalArgumentException("Withdrawal amount must be positive.");
-        }
-        // The check for sufficient funds is now delegated to the Money object's subtract method.
+        validatePositiveAmount(amount);
         this.balance = this.balance.subtract(amount);
+    }
+
+    /**
+     * Transfers a specified amount from this account to another account.
+     *
+     * @param otherAccount The account to transfer money to. Must not be null.
+     * @param amount       The amount to transfer. Must be positive and not exceed balance.
+     * @throws NullPointerException     if otherAccount is null.
+     * @throws IllegalStateException    if this account has insufficient funds.
+     * @throws IllegalArgumentException if the amount is not positive.
+     */
+    public void transferTo(BankAccount otherAccount, Money amount) {
+        Objects.requireNonNull(otherAccount, "Destination account must not be null.");
+
+        // By calling our own withdraw/deposit methods, we reuse all existing
+        // validation logic (positive amount, sufficient funds).
+        this.withdraw(amount);
+        otherAccount.deposit(amount);
     }
 
     /**
@@ -86,49 +108,5 @@ public final class BankAccount {
         return "BankAccount[accountId=" + accountId +
                ", accountHolder=" + accountHolder +
                ", balance=" + balance + " cents]";
-    }
-
-    /**
-     * A minimal demonstration of the BankAccount class.
-     *
-     * @param args Command line arguments (not used).
-     */
-    public static void main(String[] args) {
-        System.out.println("--- BankAccount Demo ---");
-
-        // 1. Create a new account
-        BankAccount account = new BankAccount(
-            new AccountHolder("Jane Doe"),
-            new AccountID("A123456789")
-        );
-        System.out.println("Created: " + account);
-
-        // 2. Deposit money
-        account.deposit(Money.ofCents(10000)); // $100.00
-        System.out.println("After deposit 10000 cents: " + account.getBalance().getAmountInCents());
-
-        // 3. Withdraw money
-        account.withdraw(Money.ofCents(2550)); // $25.50
-        System.out.println("After withdraw 2550 cents: " + account.getBalance().getAmountInCents());
-
-        // 4. Demonstrate failed withdrawal (insufficient funds)
-        try {
-            System.out.println("Attempting to withdraw 99999 cents...");
-            account.withdraw(Money.ofCents(99999));
-        } catch (IllegalStateException e) {
-            System.out.println("Caught expected error: " + e.getMessage());
-        }
-
-        // 5. Demonstrate failed deposit (invalid amount)
-        try {
-            System.out.println("Attempting to deposit -500 cents...");
-            // The Money.ofCents factory method will throw an exception here
-            account.deposit(Money.ofCents(-500));
-        } catch (IllegalArgumentException e) {
-            System.out.println("Caught expected error: " + e.getMessage());
-        }
-        
-        System.out.println("Final state: " + account);
-        System.out.println("--- End of Demo ---");
     }
 }

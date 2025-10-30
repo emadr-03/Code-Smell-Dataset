@@ -70,6 +70,10 @@ public final class Money {
     public boolean isLessThan(Money other) {
         return this.amountInCents < other.amountInCents;
     }
+
+    public boolean isPositive() {
+        return this.amountInCents > 0;
+    }
     
     public long getAmountInCents() {
         return amountInCents;
