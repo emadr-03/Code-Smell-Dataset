@@ -1,3 +1,5 @@
+package clean;
+
 public class BankAccountDemo {
     /**
      * A minimal demonstration of the BankAccount class.

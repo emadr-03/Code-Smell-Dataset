@@ -1,3 +1,5 @@
+package smelly;
+
 import java.util.Objects;
 
 /**

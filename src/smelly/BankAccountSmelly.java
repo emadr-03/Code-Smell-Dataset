@@ -1,3 +1,5 @@
+package smelly;
+
 import java.util.Objects;
 
 /**
@@ -5,7 +7,7 @@ import java.util.Objects;
  * This class ensures that the balance is never negative and that
  * transaction amounts are valid.
  */
-public class BankAccount {
+public class BankAccountSmelly {
 
     private final AccountHolder accountHolder;
     private final AccountID accountId;
@@ -17,7 +19,7 @@ public class BankAccount {
      * @param accountHolder The account holder. Must not be null.
      * @param accountId     The unique identifier for the account. Must not be null.
      */
-    public BankAccount(AccountHolder accountHolder, AccountID accountId) {
+    public BankAccountSmelly(AccountHolder accountHolder, AccountID accountId) {
         this.accountHolder = Objects.requireNonNull(accountHolder, "Account holder must not be null.");
         this.accountId = Objects.requireNonNull(accountId, "Account ID must not be null.");
         this.balance = Money.ofCents(0);
@@ -67,7 +69,7 @@ public class BankAccount {
      * @throws IllegalStateException    if this account has insufficient funds.
      * @throws IllegalArgumentException if the amount is not positive.
      */
-    public void transferTo(BankAccount otherAccount, Money amount) {
+    public void transferTo(BankAccountSmelly otherAccount, Money amount) {
         Objects.requireNonNull(otherAccount, "Destination account must not be null.");
 
         this.withdraw(amount);
