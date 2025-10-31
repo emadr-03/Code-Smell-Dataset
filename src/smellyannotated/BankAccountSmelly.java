@@ -14,11 +14,15 @@ public class BankAccountSmelly {
     private final AccountHolder accountHolder;
     private final AccountID accountId;
     private Money balance;
+    private String accountStatus; //Primitive Obsession
+    private int accountTypeCode; //Primitive Obsession
 
     public BankAccountSmelly(AccountHolder accountHolder, AccountID accountId) {
         this.accountHolder = Objects.requireNonNull(accountHolder, "Account holder must not be null.");
         this.accountId = Objects.requireNonNull(accountId, "Account ID must not be null.");
         this.balance = Money.ofCents(0);
+        this.accountStatus = "ACTIVE"; //Primitive Obsession
+        this.accountTypeCode = 1; //Primitive Obsession
     }
 
     private void validatePositiveAmount(Money amount) {
@@ -29,7 +33,11 @@ public class BankAccountSmelly {
 
     public void deposit(Money amount) {
         validatePositiveAmount(amount);
-        this.balance = this.balance.add(amount);
+        
+        //Primitive Obsession
+        if (!this.accountStatus.equals("CLOSED")) {
+            this.balance = this.balance.add(amount);
+        }
     }
 
     //Long Method
@@ -41,7 +49,16 @@ public class BankAccountSmelly {
         statement.append("Statement Period: ").append(startDate).append(" to ").append(endDate).append("\n");
         statement.append("Current Balance: ").append(this.balance).append("\n");
         statement.append("------------------------\n");
-        statement.append("Account Type: Standard\n");
+
+        //Primitive Obsession
+        if (this.accountTypeCode == 1) {
+            statement.append("Account Type: Checking\n");
+        } else if (this.accountTypeCode == 2) {
+            statement.append("Account Type: Savings\n");
+        } else {
+            statement.append("Account Type: Business\n");
+        }
+        
         statement.append("Interest Rate: 0.00%\n");
         statement.append("Monthly Fee: $0.00\n");
         statement.append("Overdraft Protection: No\n");
@@ -71,6 +88,13 @@ public class BankAccountSmelly {
             return false;
         }
         return true;
+    }
+
+    //Primitive Obsession
+    public void setAccountStatus(String status) {
+        if (status.equals("ACTIVE") || status.equals("FROZEN") || status.equals("CLOSED")) {
+            this.accountStatus = status;
+        }
     }
 
     //Long Method
