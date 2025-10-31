@@ -70,8 +70,6 @@ public class BankAccount {
     public void transferTo(BankAccount otherAccount, Money amount) {
         Objects.requireNonNull(otherAccount, "Destination account must not be null.");
 
-        // By calling our own withdraw/deposit methods, we reuse all existing
-        // validation logic (positive amount, sufficient funds).
         this.withdraw(amount);
         otherAccount.deposit(amount);
     }
