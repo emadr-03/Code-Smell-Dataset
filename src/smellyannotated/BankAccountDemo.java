@@ -1,4 +1,4 @@
-package smelly;
+package smellyannotated;
 
 public class BankAccountDemo {
     /**

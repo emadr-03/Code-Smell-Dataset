@@ -1,4 +1,4 @@
-package smelly;
+package smellyannotated;
 
 import java.util.Objects;
 
