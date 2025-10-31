@@ -75,6 +75,17 @@ public class BankAccount {
     }
 
     /**
+     * Withdraws all money from the account, leaving it with zero balance.
+     *
+     * @return The amount withdrawn (previous balance).
+     */
+    public Money withdrawAll() {
+        Money amount = this.balance;
+        this.balance = Money.ofCents(0);
+        return amount;
+    }
+
+    /**
      * Gets the current account balance.
      *
      * @return The current account balance as a Money object.
