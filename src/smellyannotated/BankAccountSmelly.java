@@ -3,19 +3,52 @@ package smellyannotated;
 import java.util.Objects;
 
 /**
+ * Base class for all accounts
+ * Used for these smells: Refused Bequest
+ */
+class BaseAccount {
+    protected String accountCategory;
+    protected boolean isInternational;
+    
+    public void enableInternationalTransactions() {
+        this.isInternational = true;
+    }
+    
+    public void setCategory(String category) {
+        this.accountCategory = category;
+    }
+    
+    public String getCategory() {
+        return this.accountCategory;
+    }
+    
+    public boolean supportsChecks() {
+        return true;
+    }
+    
+    public void issueCheckbook(int numberOfChecks) {
+        System.out.println("Issuing " + numberOfChecks + " checks");
+    }
+}
+
+/**
  * A simple bank account.
  * This class ensures that the balance is never negative and that
  * transaction amounts are valid.
  */
 
  //Large Class
-public class BankAccountSmelly {
+public class BankAccountSmelly extends BaseAccount {
 
     private final AccountHolder accountHolder;
     private final AccountID accountId;
     private Money balance;
     private String accountStatus; //Primitive Obsession
     private int accountTypeCode; //Primitive Obsession
+    //Temporary Field
+    private Money pendingTransferAmount;
+    //Temporary Field
+    private BankAccountSmelly temporaryDestinationAccount;
 
     public BankAccountSmelly(AccountHolder accountHolder, AccountID accountId) {
         this.accountHolder = Objects.requireNonNull(accountHolder, "Account holder must not be null.");
@@ -23,6 +56,11 @@ public class BankAccountSmelly {
         this.balance = Money.ofCents(0);
         this.accountStatus = "ACTIVE"; //Primitive Obsession
         this.accountTypeCode = 1; //Primitive Obsession
+    }
+
+    //Data Clumps
+    public void updateContactInfo(String street, String city, String zipCode) {
+        System.out.println("Updating address: " + street + ", " + city + ", " + zipCode);
     }
 
     private void validatePositiveAmount(Money amount) {
@@ -64,6 +102,11 @@ public class BankAccountSmelly {
         statement.append("Overdraft Protection: No\n");
         statement.append("========================\n");
         return statement.toString();
+    }
+
+    //Data Clumps
+    public void setOwnerDetails(String firstName, String lastName, String middleName) {
+        System.out.println("Owner: " + firstName + " " + middleName + " " + lastName);
     }
 
     //Long Method
@@ -117,6 +160,22 @@ public class BankAccountSmelly {
         }
     }
 
+    //Switch Statements , Primitive Obsession
+    public double getTransactionFee(String transactionType) {
+        switch (transactionType) {
+            case "WIRE":
+                return 25.00;
+            case "ATM":
+                return 2.50;
+            case "TRANSFER":
+                return 0.00;
+            case "CHECK":
+                return 1.00;
+            default:
+                return 5.00;
+        }
+    }
+
     //Long Parameter List
     public void setupRecurringTransfer(BankAccountSmelly destinationAccount, Money amount, String frequency, String startDate, String endDate, boolean notifyOnTransfer, int maxRetries) {
         Objects.requireNonNull(destinationAccount, "Destination account must not be null.");
@@ -164,6 +223,53 @@ public class BankAccountSmelly {
         return report.toString();
     }
 
+    //Switch Statements , Primitive Obsession
+    public int getMaxDailyWithdrawals(String accountTier) {
+        switch (accountTier) {
+            case "BASIC":
+                return 3;
+            case "STANDARD":
+                return 5;
+            case "PREMIUM":
+                return 10;
+            case "VIP":
+                return -1;
+            default:
+                return 1;
+        }
+    }
+
+    //Used for TF smell
+    public void initiateWireTransfer(BankAccountSmelly destination, Money amount) {
+        this.pendingTransferAmount = amount;
+        this.temporaryDestinationAccount = destination;
+    }
+
+    //Used for TF smell
+    public void completeWireTransfer() {
+        if (this.pendingTransferAmount != null && this.temporaryDestinationAccount != null) {
+            this.transferTo(this.temporaryDestinationAccount, this.pendingTransferAmount);
+            this.pendingTransferAmount = null;
+            this.temporaryDestinationAccount = null;
+        }
+    }
+
+    //Switch Statements , Primitive Obsession
+    public String getRewardMultiplier(String cardType) {
+        switch (cardType) {
+            case "PLATINUM":
+                return "3x points";
+            case "GOLD":
+                return "2x points";
+            case "SILVER":
+                return "1.5x points";
+            case "BRONZE":
+                return "1x points";
+            default:
+                return "No rewards";
+        }
+    }
+
     //Long Parameter List
     public void configureOverdraftProtection(Money overdraftLimit, double overdraftFee, boolean autoTransferFromSavings, BankAccountSmelly savingsAccount, boolean notifyOnOverdraft, String notificationEmail, int maxOverdraftsPerMonth) {
         validatePositiveAmount(overdraftLimit);
@@ -174,6 +280,23 @@ public class BankAccountSmelly {
         if (notifyOnOverdraft) {
             System.out.println("Notifications will be sent to: " + notificationEmail);
         }
+    }
+
+    //Refused Bequest
+    @Override
+    public boolean supportsChecks() {
+        return false;
+    }
+
+    //Refused Bequest
+    @Override
+    public void issueCheckbook(int numberOfChecks) {
+        throw new UnsupportedOperationException("This account type does not support checks");
+    }
+
+    //Data Clumps
+    public boolean verifyIdentity(String documentType, String documentNumber, String issuingCountry) {
+        return documentType != null && documentNumber != null && issuingCountry != null;
     }
 
     //Long Method
@@ -193,6 +316,12 @@ public class BankAccountSmelly {
         }
         long interestCents = Math.round(interestAmount);
         this.balance = Money.ofCents(currentCents + interestCents);
+    }
+
+    //Refused Bequest
+    @Override
+    public void enableInternationalTransactions() {
+        throw new UnsupportedOperationException("International transactions not supported");
     }
 
     public void withdraw(Money amount) {
