@@ -35,6 +35,9 @@ class BaseAccount {
  * A simple bank account.
  * This class ensures that the balance is never negative and that
  * transaction amounts are valid.
+ * 
+ * The errors in the code are due to object types created specifically to prevent
+ * new Primitive Obsession smells from appearing, but the relative classes do not actually exist in the project.
  */
 
  //Large Class
@@ -203,6 +206,31 @@ public class BankAccountSmelly extends BaseAccount {
         }
         System.out.println("Transaction authorized at " + merchantName + " (" + merchantCategory + ") in " + location);
         return true;
+    }
+
+    //Divergent Change
+    public void updateAccountHolderEmail(EmailAddress newEmail) {
+        System.out.println("Updating email for account holder: " + this.accountHolder);
+    }
+
+    //Divergent Change
+    public void updateAccountHolderPhone(PhoneNumber newPhone) {
+        System.out.println("Updating phone for account holder: " + this.accountHolder);
+    }
+
+    //Divergent Change
+    public void applyNewInterestPolicy(InterestPolicy policy) {
+        System.out.println("Applying new interest policy to account: " + this.accountId);
+    }
+
+    //Divergent Change
+    public void updateSecuritySettings(SecuritySettings settings) {
+        System.out.println("Updating security settings for account: " + this.accountId);
+    }
+
+    //Divergent Change
+    public void applyNewFeeStructure(FeeStructure feeStructure) {
+        System.out.println("Applying new fee structure to account: " + this.accountId);
     }
 
     //Long Method
