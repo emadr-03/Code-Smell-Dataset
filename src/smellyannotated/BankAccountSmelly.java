@@ -88,16 +88,6 @@ public class BankAccountSmelly extends BaseAccount {
         return this.balance.getAmountInCents() >= purchaseAmount.getAmountInCents();
     }
 
-    //Feature Envy
-    public String formatHolderName() {
-        return "Name of the Account Holder: " + this.accountHolder.getName();
-    }
-
-    //Feature Envy
-    public boolean isBalanceGreaterThan(Money threshold) {
-        return this.balance.getAmountInCents() > threshold.getAmountInCents();
-    }
-
     //Long Method
     public String generateAccountStatement(String startDate, String endDate) {
         StringBuilder statement = new StringBuilder();
@@ -206,6 +196,11 @@ public class BankAccountSmelly extends BaseAccount {
 
         this.withdraw(transferAmount);
         destinationAccount.deposit(transferAmount);
+    }
+
+    //Feature Envy
+    public boolean isBalanceGreaterThan(Money threshold) {
+        return this.balance.getAmountInCents() > threshold.getAmountInCents();
     }
 
     //Switch Statements
@@ -321,6 +316,11 @@ public class BankAccountSmelly extends BaseAccount {
             default:
                 return "No rewards";
         }
+    }
+
+    //Feature Envy
+    public String formatHolderName() {
+        return "Name of the Account Holder: " + this.accountHolder.getName();
     }
 
     //Long Parameter List
