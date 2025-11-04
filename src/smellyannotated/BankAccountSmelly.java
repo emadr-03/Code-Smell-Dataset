@@ -83,6 +83,21 @@ public class BankAccountSmelly extends BaseAccount {
         }
     }
 
+    //Feature Envy
+    public boolean canAffordPurchase(Money purchaseAmount) {
+        return this.balance.getAmountInCents() >= purchaseAmount.getAmountInCents();
+    }
+
+    //Feature Envy
+    public String formatHolderName() {
+        return "Name of the Account Holder: " + this.accountHolder.getName();
+    }
+
+    //Feature Envy
+    public boolean isBalanceGreaterThan(Money threshold) {
+        return this.balance.getAmountInCents() > threshold.getAmountInCents();
+    }
+
     //Long Method
     public String generateAccountStatement(String startDate, String endDate) {
         StringBuilder statement = new StringBuilder();
