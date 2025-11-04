@@ -36,7 +36,7 @@ class BaseAccount {
  * This class ensures that the balance is never negative and that
  * transaction amounts are valid.
  * 
- * The errors in the code are due to object types created specifically to prevent
+ * Errors in the code are due to object types created specifically to prevent
  * new Primitive Obsession smells from appearing, but the relative classes do not actually exist in the project.
  */
 
@@ -52,6 +52,10 @@ public class BankAccountSmelly extends BaseAccount {
     private Money pendingTransferAmount;
     //Temporary Field
     private BankAccountSmelly temporaryDestinationAccount;
+    private BankBranch homeBranch;
+    private TransactionLogger transactionLogger;
+    private AccountSecurityManager securityManager;
+    private NotificationService notificationService;
 
     public BankAccountSmelly(AccountHolder accountHolder, AccountID accountId) {
         this.accountHolder = Objects.requireNonNull(accountHolder, "Account holder must not be null.");
@@ -162,6 +166,11 @@ public class BankAccountSmelly extends BaseAccount {
         return true;
     }
 
+    //Middle Man
+    public boolean checkSecurityAlert(AccountID accountId) {
+        return this.securityManager.hasAlert(accountId);
+    }
+
     //Primitive Obsession
     public void setAccountStatus(String status) {
         if (status.equals("ACTIVE") || status.equals("FROZEN") || status.equals("CLOSED")) {
@@ -220,6 +229,11 @@ public class BankAccountSmelly extends BaseAccount {
         }
     }
 
+    //Message Chains
+    public String getBranchManagerName() {
+        return this.homeBranch.getManager().getPersonalInfo().getName();
+    }
+
     //Long Parameter List
     public void setupRecurringTransfer(BankAccountSmelly destinationAccount, Money amount, String frequency, String startDate, String endDate, boolean notifyOnTransfer, int maxRetries) {
         Objects.requireNonNull(destinationAccount, "Destination account must not be null.");
@@ -251,6 +265,16 @@ public class BankAccountSmelly extends BaseAccount {
         return true;
     }
 
+    //Middle Man
+    public void sendNotification(NotificationMessage message) {
+        this.notificationService.send(message);
+    }
+
+    //Middle Man
+    public TransactionHistory getTransactionHistory() {
+        return this.transactionLogger.getHistory();
+    }
+
     //Long Method
     public String calculateTaxReport(int year, double taxRate) {
         StringBuilder report = new StringBuilder();
@@ -269,8 +293,13 @@ public class BankAccountSmelly extends BaseAccount {
         return report.toString();
     }
 
+    //Message Chains
+    public String getBranchCity() {
+        return this.homeBranch.getAddress().getCity().getName();
+    }
+
     //Switch Statements
-    //Prmitive Obsession
+    //Primitive Obsession
     public int getMaxDailyWithdrawals(String accountTier) {
         switch (accountTier) {
             case "BASIC":
@@ -369,6 +398,11 @@ public class BankAccountSmelly extends BaseAccount {
         }
         long interestCents = Math.round(interestAmount);
         this.balance = Money.ofCents(currentCents + interestCents);
+    }
+
+    //Message Chains
+    public PhoneNumber getAccountHolderPhoneNumber() {
+        return this.accountHolder.getContactInfo().getPrimaryPhone().getNumber();
     }
 
     //Refused Bequest
