@@ -76,6 +76,8 @@ public class BankAccountSmelly extends BaseAccount {
         validatePositiveAmount(amount);
         
         //Primitive Obsession
+        //"Comments" SMELL
+        //@@Check if account is not closed before depositing
         if (!this.accountStatus.equals("CLOSED")) {
             this.balance = this.balance.add(amount);
         }
@@ -107,6 +109,22 @@ public class BankAccountSmelly extends BaseAccount {
         return statement.toString();
     }
 
+    //Duplicate Code
+    //Dead Code
+    private void validatePositiveAmountAgain(Money amount) {
+        if (!amount.isPositive()) {
+            throw new IllegalArgumentException("Amount must be positive.");
+        }
+    }
+
+    //Duplicate Code
+    //Dead Code
+    private void validatePositiveMoneyAmount(Money amount) {
+        if (!amount.isPositive()) {
+            throw new IllegalArgumentException("Amount must be positive.");
+        }
+    }
+
     //Data Clumps
     public void setOwnerDetails(String firstName, String lastName, String middleName) {
         System.out.println("Owner: " + firstName + " " + middleName + " " + lastName);
@@ -130,6 +148,9 @@ public class BankAccountSmelly extends BaseAccount {
         if (creditScore >= 600 && creditScore < 700 && yearsOfHistory < 1) {
             return false;
         }
+
+        //"Comments" SMELL
+        //@@Reject high loan amounts for low credit scores
         if (loanAmount.getAmountInCents() > 100000000 && creditScore < 750) {
             return false;
         }
@@ -163,7 +184,17 @@ public class BankAccountSmelly extends BaseAccount {
         }
     }
 
-    //Switch Statements , Primitive Obsession
+    //Duplicate Code
+    //Dead Code
+    private void transferFundsTo(BankAccountSmelly destinationAccount, Money transferAmount) {
+        Objects.requireNonNull(destinationAccount, "Destination account must not be null.");
+
+        this.withdraw(transferAmount);
+        destinationAccount.deposit(transferAmount);
+    }
+
+    //Switch Statements
+    //Primitive Obsession
     public double getTransactionFee(String transactionType) {
         switch (transactionType) {
             case "WIRE":
@@ -194,6 +225,8 @@ public class BankAccountSmelly extends BaseAccount {
     //Long Parameter List
     public boolean authorizeTransaction(Money amount, String merchantName, String merchantCategory, String location, String currency, double conversionRate, boolean requiresPin, String transactionId) {
         validatePositiveAmount(amount);
+        //"Comments" SMELL
+        //@@Ensure sufficient balance before authorizing
         if (this.balance.getAmountInCents() < amount.getAmountInCents()) {
             return false;
         }
@@ -206,31 +239,6 @@ public class BankAccountSmelly extends BaseAccount {
         }
         System.out.println("Transaction authorized at " + merchantName + " (" + merchantCategory + ") in " + location);
         return true;
-    }
-
-    //Divergent Change
-    public void updateAccountHolderEmail(EmailAddress newEmail) {
-        System.out.println("Updating email for account holder: " + this.accountHolder);
-    }
-
-    //Divergent Change
-    public void updateAccountHolderPhone(PhoneNumber newPhone) {
-        System.out.println("Updating phone for account holder: " + this.accountHolder);
-    }
-
-    //Divergent Change
-    public void applyNewInterestPolicy(InterestPolicy policy) {
-        System.out.println("Applying new interest policy to account: " + this.accountId);
-    }
-
-    //Divergent Change
-    public void updateSecuritySettings(SecuritySettings settings) {
-        System.out.println("Updating security settings for account: " + this.accountId);
-    }
-
-    //Divergent Change
-    public void applyNewFeeStructure(FeeStructure feeStructure) {
-        System.out.println("Applying new fee structure to account: " + this.accountId);
     }
 
     //Long Method
@@ -251,7 +259,8 @@ public class BankAccountSmelly extends BaseAccount {
         return report.toString();
     }
 
-    //Switch Statements , Primitive Obsession
+    //Switch Statements
+    //Prmitive Obsession
     public int getMaxDailyWithdrawals(String accountTier) {
         switch (accountTier) {
             case "BASIC":
@@ -282,7 +291,8 @@ public class BankAccountSmelly extends BaseAccount {
         }
     }
 
-    //Switch Statements , Primitive Obsession
+    //Switch Statements
+    //Primitive Obsession
     public String getRewardMultiplier(String cardType) {
         switch (cardType) {
             case "PLATINUM":
