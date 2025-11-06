@@ -1,4 +1,4 @@
-package clean;
+package utility;
 
 import java.util.Objects;
 

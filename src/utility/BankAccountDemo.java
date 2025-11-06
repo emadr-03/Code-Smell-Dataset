@@ -1,4 +1,6 @@
-package clean;
+package utility;
+
+import clean.BankAccount;
 
 public class BankAccountDemo {
     /**
