@@ -30,9 +30,6 @@ Code-Smell-Dataset/
 #### 1. `src/clean/`
 Contains the baseline `BankAccount.java` implementation that is completely free of code smells. This represents best practices and serves as the reference implementation for comparison.
 
-**Contents:**
-- `BankAccount.java` - Clean, well-structured bank account implementation
-
 #### 2. `src/smellyannotated/`
 Contains `BankAccountSmelly.java` with **all 14 code smells** injected simultaneously. Each code smell is annotated with comments (e.g., `//Long Method`, `//Data Clumps`) to identify where specific smells occur.
 
