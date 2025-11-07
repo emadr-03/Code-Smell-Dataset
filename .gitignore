@@ -23,8 +23,8 @@ hs_err_pid*
 # MacOS
 .DS_Store
 
-# Build directories
-bin/
+# Build directories - exclude only compiled files, keep directory structure
+bin/**/*.class
 target/
 build/
 out/

@@ -131,13 +131,21 @@ This dataset includes examples of **14 different code smells**:
 
 ### Compiling the Code
 
-```bash
-# Compile all source files
-javac -d bin src/**/*.java
+The dataset has different compilation requirements depending on which parts you want to use:
 
-# Compile and run the demo
+```bash
+# Compile the clean implementation (compiles successfully)
 javac -d bin src/utility/*.java src/clean/BankAccount.java
+
+# Run the demo
 java -cp bin utility.BankAccountDemo
+
+# Compile individual smell examples (most compile successfully)
+javac -d bin src/utility/*.java src/smellybytype/annotated/LongMethod/BankAccountSmelly.java
+
+# Note: Combined smell implementations (smellyannotated, smellyunannotated) 
+# contain intentional references to non-existent classes and will not compile.
+# These are intended for code smell detection, not execution.
 ```
 
 ### Comparing Implementations
@@ -157,7 +165,10 @@ To understand a specific code smell:
 
 - The `bin/` directory contains compiled `.class` files that mirror the structure of `src/`
 - All smelly implementations are based on the same core functionality as the clean version
-- Some smelly versions may have compilation errors due to references to non-existent classes created specifically to demonstrate certain smells (e.g., in Primitive Obsession examples)
+- **Compilation Compatibility**: 
+  - The **clean** implementation (`src/clean/`) compiles without errors
+  - Individual smell examples in `src/smellybytype/*/` generally compile successfully
+  - The combined implementations (`src/smellyannotated/` and `src/smellyunannotated/`) contain intentional references to non-existent classes (e.g., `BankBranch`, `TransactionLogger`, `NotificationService`, `AccountSecurityManager`) to demonstrate certain code smells, particularly **Large Class** and **Primitive Obsession**. These files are intended for code smell detection and educational purposes rather than compilation.
 - Utility classes demonstrate proper object-oriented design principles and should be used as positive examples
 
 ## License
