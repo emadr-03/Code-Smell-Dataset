@@ -349,8 +349,12 @@ public class BankAccountSmelly extends BaseAccount {
     }
 
     //Feature Envy
-    public String formatHolderName() {
-        return "Name of the Account Holder: " + this.accountHolder.getName();
+    public String checkBranchOperationalStatus(java.time.LocalTime now) {
+        if (this.homeBranch.isOpen(now) && this.homeBranch.hasStaff()) {
+            return "Branch is fully operational.";
+        } else {
+            return "Branch is currently closed or understaffed.";
+        }
     }
 
     //Long Parameter List

@@ -36,6 +36,6 @@ public final class AccountHolder {
 
     @Override
     public String toString() {
-        return name;
+        return "Name of the Account Holder: " + name;
     }
 }

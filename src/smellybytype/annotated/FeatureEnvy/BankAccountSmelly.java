@@ -17,6 +17,7 @@ public class BankAccountSmelly {
     private final AccountHolder accountHolder;
     private final AccountID accountId;
     private Money balance;
+    private BankBranch homeBranch;
 
     public BankAccountSmelly(AccountHolder accountHolder, AccountID accountId) {
         this.accountHolder = Objects.requireNonNull(accountHolder, "Account holder must not be null.");
@@ -46,8 +47,12 @@ public class BankAccountSmelly {
     }
 
     //Feature Envy
-    public String formatHolderName() {
-        return "Name of the Account Holder: " + this.accountHolder.getName();
+    public String checkBranchOperationalStatus(java.time.LocalTime now) {
+        if (this.homeBranch.isOpen(now) && this.homeBranch.hasStaff()) {
+            return "Branch is fully operational.";
+        } else {
+            return "Branch is currently closed or understaffed.";
+        }
     }
 
     public void withdraw(Money amount) {
