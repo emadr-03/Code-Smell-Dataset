@@ -10,7 +10,7 @@ The primary purpose of this Dataset is to evaluate the performance of LLMs regar
 
 ## Directory Structure
 
-The repository is organized into two main directories:
+The repository is organized into three main directories:
 
 ```
 Code-Smell-Dataset/
@@ -22,7 +22,8 @@ Code-Smell-Dataset/
 │   │   ├── annotated/      # Each smell isolated and annotated
 │   │   └── unannotated/    # Each smell isolated without annotations
 │   └── utility/            # Supporting utility classes
-└── bin/                    # Compiled Java class files (mirrors src structure)
+├── bin/                    # Compiled Java class files (mirrors src structure)
+└── Prompts/                # Prompts used for analysis
 ```
 
 ### Source Directories Explained
