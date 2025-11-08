@@ -53,10 +53,10 @@ Contains 14 subdirectories (one per code smell type), each with a `BankAccountSm
 - `LongParameterList/` - Method with too many parameters
 - `MessageChains/` - Chain of method calls (e.g., a.getB().getC().getD())
 - `MiddleMan/` - Class that delegates most of its work to other classes
-- `PrimitiveObsession/` - Overuse of primitive types instead of objects
-- `RefusedBequest/` - Subclass that doesn't use inherited methods/fields
-- `SwitchStatements/` - Complex switch statements that should be polymorphic
-- `TemporaryField/` - Fields that are only set in certain circumstances
+- `PrimitiveObsession/`
+- `RefusedBequest/`
+- `SwitchStatements/`
+- `TemporaryField/`
 
 ##### `src/smellybytype/unannotated/`
 Mirrors the structure of `annotated/` but **without annotations**. Each subdirectory contains a `BankAccountSmelly.java` demonstrating only that specific code smell.
@@ -89,7 +89,7 @@ This dataset includes examples of **14 different code smells**:
 11. **Dead Code** - Unused methods, variables, or code blocks
 12. **Feature Envy** - Methods that are more interested in other classes' data than their own
 13. **Message Chains** - Long chains of method calls (Law of Demeter violation)
-14. **Middle Man** - Classes that delegate most of their work to other classes
+14. **Middle Man** - Classes or Methods that delegate most of their work to others.
 
 ## Dataset Statistics
 
