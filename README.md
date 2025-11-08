@@ -43,16 +43,16 @@ Contains isolated examples of each code smell, organized into subdirectories. Ea
 Contains 14 subdirectories (one per code smell type), each with a `BankAccountSmelly.java` that demonstrates **only that specific code smell** with annotations marking the smell.
 
 **Subdirectories:**
-- `Comments/` - Excessive or misleading comments
-- `DataClumps/` - Groups of data items that appear together repeatedly
-- `DeadCode/` - Unused code that serves no purpose
-- `DuplicateCode/` - Code that is repeated in multiple places
-- `FeatureEnvy/` - Method that accesses data of another object more than its own
-- `LargeClass/` - Class trying to do too much
-- `LongMethod/` - Method that is too long and does too many things
-- `LongParameterList/` - Method with too many parameters
-- `MessageChains/` - Chain of method calls (e.g., a.getB().getC().getD())
-- `MiddleMan/` - Class that delegates most of its work to other classes
+- `Comments/`
+- `DataClumps/`
+- `DeadCode/`
+- `DuplicateCode/`
+- `FeatureEnvy/`
+- `LargeClass/`
+- `LongMethod/`
+- `LongParameterList/`
+- `MessageChains/`
+- `MiddleMan/`
 - `PrimitiveObsession/`
 - `RefusedBequest/`
 - `SwitchStatements/`
