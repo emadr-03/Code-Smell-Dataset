@@ -131,3 +131,4 @@ javac -d bin src/utility/*.java src/smellybytype/annotated/LongMethod/BankAccoun
   - Individual smell examples in `src/smellybytype/*/` generally compile successfully
   - The combined implementations (`src/smellyannotated/` and `src/smellyunannotated/`) contain intentional references to non-existent classes (e.g., `BankBranch`, `TransactionLogger`, `NotificationService`, `AccountSecurityManager`) to demonstrate certain code smells, particularly **Large Class** and **Primitive Obsession**. These files are intended for code smell detection and educational purposes rather than compilation.
 - Utility classes demonstrate proper object-oriented design principles and should be used as positive examples
+- The `Prompts` folder contains all the prompts that can be used for the analysis.
