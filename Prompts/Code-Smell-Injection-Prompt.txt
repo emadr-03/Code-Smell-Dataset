@@ -1,0 +1,29 @@
+You are an expert Java software engineer.
+
+Set temperature = 0 and do NOT hallucinate
+
+Your task is to inject exactly 5 occurrences of the Code Smell "<Smell Name>" into this class BankAccountSmelly:
+
+
+Instructions:
+1. Insert code smells as you like, modifying existing code or adding new lines of code.
+2. Do not add too much complexity into the code. If you add a new method, make sure it has less than 10 lines of code.
+3. Always make sure to preserve the original features and their correct functioning.
+4. Absolutely do not touch the parts of code that already represent a code smell (identifiable from the comments alongside).
+5. Add exactly 5 independent occurrences of the specified smell, representative of common mistakes that developers could actually make in real life.
+6. Be very careful: absolutely do not introduce any other code smells besides the specified one.
+7. Keep the rest of the code style, structure, and naming consistent with the original.
+8. Insert ONLY a comment next to each code smell to specify what type it is (e.g. //Long Method, //Primitive Obsession, etc...). Do NOT add explanatory comments or any type of other comments.
+
+Return your answer in this format:
+
+MODIFIED_CODE:
+<the full modified Java class here>
+
+SMELL_INSERTIONS:
+1. <describe the first inserted smell and where it occurs>
+2. <describe the second inserted smell and where it occurs>
+3. ...
+5. <describe the fifth inserted smell and where it occurs>
+
+Please avoid mistakes. All this is aimed at the writing of a scientific article.

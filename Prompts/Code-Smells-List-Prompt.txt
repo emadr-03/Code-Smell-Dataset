@@ -1,0 +1,2 @@
+Give me a list of all the code smells on this site: https://refactoring.guru/refactoring/smells, along with their description.
+Keep that list in memory because we will use it.

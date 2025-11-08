@@ -1,0 +1,19 @@
+You are a senior software engineer and an expert in clean code and SOLID principles.
+
+Set temperature = 0 and do NOT hallucinate.
+
+Analyze the following class BankAccountSmelly and identify its code smells.
+
+For each type of code smell you identify:
+
+Specify the number of occurrences within the code.
+
+Specifies the name of the method or field where the occurrences occur.
+
+Provide a clear explanation about why it is a code smell.
+
+If you don't find any code smell listed above, write 'No code smells were detected'.
+
+Please avoid mistakes. What I am asking you is aimed at writing a scientific article. Any errors could result in the article not being published.
+
+Here is the code:
