@@ -1,0 +1,168 @@
+package smellybytype.annotated.LongMethod7;
+
+import java.util.Objects;
+import utility.*;
+
+/**
+ * A simple bank account.
+ * This class ensures that the balance is never negative and that
+ * transaction amounts are valid.
+ */
+public class BankAccountSmelly {
+
+    private final AccountHolder accountHolder;
+    private final AccountID accountId;
+    private Money balance;
+
+    public BankAccountSmelly(AccountHolder accountHolder, AccountID accountId) {
+        this.accountHolder = Objects.requireNonNull(accountHolder, "Account holder must not be null.");
+        this.accountId = Objects.requireNonNull(accountId, "Account ID must not be null.");
+        this.balance = Money.ofCents(0);
+    }
+
+    private void validatePositiveAmount(Money amount) {
+        if (!amount.isPositive()) {
+            throw new IllegalArgumentException("Amount must be positive.");
+        }
+    }
+
+    public void deposit(Money amount) {
+        validatePositiveAmount(amount);
+        this.balance = this.balance.add(amount);
+    }
+
+    //Long Method
+    public String generateAccountStatement(String startDate, String endDate) {
+        StringBuilder statement = new StringBuilder();
+        statement.append("=== ACCOUNT STATEMENT ===\n");
+        statement.append("Account ID: ").append(this.accountId).append("\n");
+        statement.append("Account Holder: ").append(this.accountHolder).append("\n");
+        statement.append("Statement Period: ").append(startDate).append(" to ").append(endDate).append("\n");
+        statement.append("Current Balance: ").append(this.balance).append("\n");
+        statement.append("------------------------\n");
+        statement.append("Account Type: Standard\n");
+        statement.append("Interest Rate: 0.00%\n");
+        statement.append("Monthly Fee: $0.00\n");
+        statement.append("Overdraft Protection: No\n");
+        statement.append("========================\n");
+        return statement.toString();
+    }
+
+    //Long Method
+    public boolean validateAccountForLoan(Money loanAmount, int creditScore, int yearsOfHistory) {
+        if (creditScore < 300 || creditScore > 850) {
+            return false;
+        }
+        if (yearsOfHistory < 0) {
+            return false;
+        }
+        Money minimumBalance = Money.ofCents(loanAmount.getAmountInCents() / 10);
+        if (this.balance.getAmountInCents() < minimumBalance.getAmountInCents()) {
+            return false;
+        }
+        if (creditScore < 600 && yearsOfHistory < 2) {
+            return false;
+        }
+        if (creditScore >= 600 && creditScore < 700 && yearsOfHistory < 1) {
+            return false;
+        }
+        if (loanAmount.getAmountInCents() > 100000000 && creditScore < 750) {
+            return false;
+        }
+        return true;
+    }
+
+    //Long Method
+    public void performEndOfYearProcessing(int year, double interestRate, double maintenanceFee, boolean sendStatement) {
+        long currentCents = this.balance.getAmountInCents();
+        double yearlyInterest = currentCents * interestRate;
+        long interestCents = Math.round(yearlyInterest);
+        this.balance = Money.ofCents(currentCents + interestCents);
+        long feeCents = Math.round(maintenanceFee * 100);
+        if (this.balance.getAmountInCents() >= feeCents) {
+            this.balance = this.balance.subtract(Money.ofCents(feeCents));
+        }
+        if (sendStatement) {
+            String statement = "Year-End Statement for " + year + "\n";
+            statement += "Account: " + this.accountId + "\n";
+            statement += "Interest Applied: $" + String.format("%.2f", yearlyInterest / 100) + "\n";
+            statement += "Maintenance Fee: $" + String.format("%.2f", maintenanceFee) + "\n";
+            statement += "Final Balance: " + this.balance + "\n";
+            System.out.println(statement);
+        }
+    }
+
+    //Long Method
+    public String calculateTaxReport(int year, double taxRate) {
+        StringBuilder report = new StringBuilder();
+        report.append("Tax Report for Year: ").append(year).append("\n");
+        report.append("Account: ").append(this.accountId).append("\n");
+        report.append("Holder: ").append(this.accountHolder).append("\n");
+        long balanceCents = this.balance.getAmountInCents();
+        double balanceDollars = balanceCents / 100.0;
+        report.append("Current Balance: $").append(String.format("%.2f", balanceDollars)).append("\n");
+        double estimatedInterest = balanceDollars * 0.02;
+        report.append("Estimated Interest Earned: $").append(String.format("%.2f", estimatedInterest)).append("\n");
+        double taxOwed = estimatedInterest * taxRate;
+        report.append("Tax Rate: ").append(String.format("%.2f%%", taxRate * 100)).append("\n");
+        report.append("Estimated Tax Owed: $").append(String.format("%.2f", taxOwed)).append("\n");
+        report.append("Report Generated: ").append(java.time.LocalDate.now()).append("\n");
+        return report.toString();
+    }
+
+    public void withdraw(Money amount) {
+        validatePositiveAmount(amount);
+        this.balance = this.balance.subtract(amount);
+    }
+
+    public void transferTo(BankAccountSmelly otherAccount, Money amount) {
+        Objects.requireNonNull(otherAccount, "Destination account must not be null.");
+
+        this.withdraw(amount);
+        otherAccount.deposit(amount);
+    }
+
+    public Money withdrawAll() {
+        Money amount = this.balance;
+        this.balance = Money.ofCents(0);
+        return amount;
+    }
+
+    //Long Method
+    public void applyMonthlyInterest(double interestRate, boolean compoundDaily, int daysInMonth) {
+        if (interestRate < 0 || interestRate > 1) {
+            throw new IllegalArgumentException("Interest rate must be between 0 and 1");
+        }
+        long currentCents = this.balance.getAmountInCents();
+        double interestAmount;
+        if (compoundDaily) {
+            double dailyRate = interestRate / 365.0;
+            double compoundFactor = Math.pow(1 + dailyRate, daysInMonth);
+            interestAmount = currentCents * (compoundFactor - 1);
+        } else {
+            double monthlyRate = interestRate / 12.0;
+            interestAmount = currentCents * monthlyRate;
+        }
+        long interestCents = Math.round(interestAmount);
+        this.balance = Money.ofCents(currentCents + interestCents);
+    }
+
+    public Money getBalance() {
+        return this.balance;
+    }
+
+    public AccountHolder getAccountHolder() {
+        return this.accountHolder;
+    }
+
+    public AccountID getAccountId() {
+        return this.accountId;
+    }
+
+    @Override
+    public String toString() {
+        return "BankAccount[accountId=" + accountId +
+               ", accountHolder=" + accountHolder +
+               ", balance=" + balance + " cents]";
+    }
+}
