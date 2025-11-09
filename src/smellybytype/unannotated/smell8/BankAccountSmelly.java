@@ -53,7 +53,7 @@ public class BankAccountSmelly {
         return true;
     }
 
-    public void configureOverdraftProtection(Money overdraftLimit, double overdraftFee, boolean autoTransferFromSavings, BankAccountSmelly savingsAccount, boolean notifyOnOverdraft, String notificationEmail, int maxOverdraftsPerMonth) {
+    public void configureOverdraftProtection(Money overdraftLimit, boolean autoTransferFromSavings, BankAccountSmelly savingsAccount, boolean notifyOnOverdraft, String notificationEmail) {
         validatePositiveAmount(overdraftLimit);
         if (autoTransferFromSavings) {
             Objects.requireNonNull(savingsAccount, "Savings account must not be null for auto-transfer.");
