@@ -141,6 +141,7 @@ public class BankAccountSmelly extends BaseAccount {
     }
 
     //Long Method
+    //Switch Statements
     public boolean validateAccountForLoan(Money loanAmount, int creditScore, int yearsOfHistory) {
         if (creditScore < 300 || creditScore > 850) {
             return false;

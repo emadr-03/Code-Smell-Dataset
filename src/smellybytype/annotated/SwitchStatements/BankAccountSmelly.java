@@ -80,6 +80,34 @@ public class BankAccountSmelly {
         }
     }
 
+    //Long Method
+    //Switch Statements
+    public boolean validateAccountForLoan(Money loanAmount, int creditScore, int yearsOfHistory) {
+        if (creditScore < 300 || creditScore > 850) {
+            return false;
+        }
+        if (yearsOfHistory < 0) {
+            return false;
+        }
+        Money minimumBalance = Money.ofCents(loanAmount.getAmountInCents() / 10);
+        if (this.balance.getAmountInCents() < minimumBalance.getAmountInCents()) {
+            return false;
+        }
+        if (creditScore < 600 && yearsOfHistory < 2) {
+            return false;
+        }
+        if (creditScore >= 600 && creditScore < 700 && yearsOfHistory < 1) {
+            return false;
+        }
+
+        //"Comments" SMELL
+        //@@Reject high loan amounts for low credit scores
+        if (loanAmount.getAmountInCents() > 100000000 && creditScore < 750) {
+            return false;
+        }
+        return true;
+    }
+
     public void deposit(Money amount) {
         validatePositiveAmount(amount);
         this.balance = this.balance.add(amount);
