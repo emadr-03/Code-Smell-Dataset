@@ -60,7 +60,7 @@ Contains 14 subdirectories (one per code smell type), each with a `BankAccountSm
 - `TemporaryField/`
 
 ##### `src/smellybytype/unannotated/`
-Mirrors the structure of `annotated/` but **without annotations**. Each subdirectory contains a `BankAccountSmelly.java` demonstrating only that specific code smell.
+Mirrors the structure of `annotated/` but **without annotations**. Each subdirectory contains a `BankAccountSmelly.java` demonstrating only that specific code smell. Since the relevant classes are those used for analysis by LLMs, the names of the packages that contain them are meant to mask the code smell present inside.
 
 #### 5. `src/utility/`
 Contains supporting classes that are used by the BankAccount implementations throughout the dataset.
