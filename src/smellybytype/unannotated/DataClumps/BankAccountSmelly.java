@@ -43,6 +43,23 @@ public class BankAccountSmelly {
         this.balance = this.balance.subtract(amount);
     }
 
+    public boolean authorizeTransaction(Money amount, String merchantName, String merchantCategory, String location, String currency, double conversionRate, boolean requiresPin, String transactionId) {
+        validatePositiveAmount(amount);
+
+        if (this.balance.getAmountInCents() < amount.getAmountInCents()) {
+            return false;
+        }
+        if (!currency.equals("USD")) {
+            long convertedAmount = Math.round(amount.getAmountInCents() * conversionRate);
+            amount = Money.ofCents(convertedAmount);
+        }
+        if (requiresPin) {
+            System.out.println("PIN verification required for transaction: " + transactionId);
+        }
+        System.out.println("Transaction authorized at " + merchantName + " (" + merchantCategory + ") in " + location);
+        return true;
+    }
+
     public void transferTo(BankAccountSmelly otherAccount, Money amount) {
         Objects.requireNonNull(otherAccount, "Destination account must not be null.");
 
@@ -54,6 +71,30 @@ public class BankAccountSmelly {
         Money amount = this.balance;
         this.balance = Money.ofCents(0);
         return amount;
+    }
+
+    public boolean validateAccountForLoan(Money loanAmount, int creditScore, int yearsOfHistory) {
+        if (creditScore < 300 || creditScore > 850) {
+            return false;
+        }
+        if (yearsOfHistory < 0) {
+            return false;
+        }
+        Money minimumBalance = Money.ofCents(loanAmount.getAmountInCents() / 10);
+        if (this.balance.getAmountInCents() < minimumBalance.getAmountInCents()) {
+            return false;
+        }
+        if (creditScore < 600 && yearsOfHistory < 2) {
+            return false;
+        }
+        if (creditScore >= 600 && creditScore < 700 && yearsOfHistory < 1) {
+            return false;
+        }
+
+        if (loanAmount.getAmountInCents() > 100000000 && creditScore < 750) {
+            return false;
+        }
+        return true;
     }
 
     public Money getBalance() {

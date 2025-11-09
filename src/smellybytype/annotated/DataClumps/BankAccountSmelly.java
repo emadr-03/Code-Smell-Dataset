@@ -61,6 +61,35 @@ public class BankAccountSmelly {
         otherAccount.deposit(amount);
     }
 
+    //Long Method
+    //Switch Statements
+    //Data Clumps
+    public boolean validateAccountForLoan(Money loanAmount, int creditScore, int yearsOfHistory) {
+        if (creditScore < 300 || creditScore > 850) {
+            return false;
+        }
+        if (yearsOfHistory < 0) {
+            return false;
+        }
+        Money minimumBalance = Money.ofCents(loanAmount.getAmountInCents() / 10);
+        if (this.balance.getAmountInCents() < minimumBalance.getAmountInCents()) {
+            return false;
+        }
+        if (creditScore < 600 && yearsOfHistory < 2) {
+            return false;
+        }
+        if (creditScore >= 600 && creditScore < 700 && yearsOfHistory < 1) {
+            return false;
+        }
+
+        //"Comments" SMELL
+        //@@Reject high loan amounts for low credit scores
+        if (loanAmount.getAmountInCents() > 100000000 && creditScore < 750) {
+            return false;
+        }
+        return true;
+    }
+
     public Money withdrawAll() {
         Money amount = this.balance;
         this.balance = Money.ofCents(0);
@@ -69,6 +98,26 @@ public class BankAccountSmelly {
 
     public Money getBalance() {
         return this.balance;
+    }
+
+    //Long Parameter List
+    //Data Clumps
+    public boolean authorizeTransaction(Money amount, String merchantName, String merchantCategory, String location, String currency, double conversionRate, boolean requiresPin, String transactionId) {
+        validatePositiveAmount(amount);
+        //"Comments" SMELL
+        //@@Ensure sufficient balance before authorizing
+        if (this.balance.getAmountInCents() < amount.getAmountInCents()) {
+            return false;
+        }
+        if (!currency.equals("USD")) {
+            long convertedAmount = Math.round(amount.getAmountInCents() * conversionRate);
+            amount = Money.ofCents(convertedAmount);
+        }
+        if (requiresPin) {
+            System.out.println("PIN verification required for transaction: " + transactionId);
+        }
+        System.out.println("Transaction authorized at " + merchantName + " (" + merchantCategory + ") in " + location);
+        return true;
     }
 
     public AccountHolder getAccountHolder() {
