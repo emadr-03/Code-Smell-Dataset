@@ -43,6 +43,8 @@ public class BankAccountSmelly {
     }
 
     //Long Method
+    //Data Clumps
+    //Switch Statements
     public boolean validateAccountForLoan(Money loanAmount, int creditScore, int yearsOfHistory) {
         if (creditScore < 300 || creditScore > 850) {
             return false;
@@ -70,6 +72,7 @@ public class BankAccountSmelly {
     }
 
     //Long Parameter List
+    //Data Clumps
     public boolean authorizeTransaction(Money amount, String merchantName, String merchantCategory, String location, String currency, double conversionRate, boolean requiresPin, String transactionId) {
         validatePositiveAmount(amount);
         //"Comments" SMELL
