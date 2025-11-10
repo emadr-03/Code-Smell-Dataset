@@ -94,6 +94,7 @@ public class BankAccountSmelly extends BaseAccount {
     }
 
     //Long Method
+    //Data Clumps
     public String generateAccountStatement(String startDate, String endDate) {
         StringBuilder statement = new StringBuilder();
         statement.append("=== ACCOUNT STATEMENT ===\n");
@@ -238,6 +239,7 @@ public class BankAccountSmelly extends BaseAccount {
     }
 
     //Long Parameter List
+    //Data Clumps
     public void setupRecurringTransfer(BankAccountSmelly destinationAccount, Money amount, String frequency, String startDate, String endDate, boolean notifyOnTransfer, int maxRetries) {
         Objects.requireNonNull(destinationAccount, "Destination account must not be null.");
         validatePositiveAmount(amount);
