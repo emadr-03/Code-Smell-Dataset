@@ -1,0 +1,18 @@
+You are a senior Java engineer.
+
+Assume temperature = 0 and do not guess. If something is unclear or would require external assumptions, state “Not applicable with given constraints”. Make sure you fully understand the following instructions.
+
+Generate ONE small, self-contained Java class that is TOTALLY clean and free of code smells, using Refactoring Guru’s code smell list that you provided me in this chat.
+
+Use only the standard Java 21 SDK. No external libraries, no frameworks, no non-existent APIs, no internet calls.
+Model a simple, concrete domain concept (e.g., Order, BankAccount, Book, or TemperatureSensor or others...). Pick one and keep it realistic and SIMPLE. Dont use complex constructs/structures.
+Follow SOLID and OO best practices: clear responsibilities, proper encapsulation, cohesive methods, meaningful names.
+
+Keep the class small (≈100–150 lines max).
+Provide a minimal main demo showing typical usage (no I/O beyond System.out.println).
+Dont write useless/avoidable comments.
+Ensure the code compiles with javac as-is.
+
+Print the final result only if all validation checks pass. Otherwise, explain briefly what prevents compliance.
+
+Please avoid mistakes. What I am asking you is aimed towards the writing of an article that I will have to discuss at a conference. Any errors could cost me the rejection of the article.
